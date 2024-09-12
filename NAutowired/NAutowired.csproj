@@ -4,8 +4,8 @@
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
     <Description>ASP.NET Core Field Injection Implement</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/hzcc-dev/NAutowired</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hzcc-dev/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2022</Copyright>
     <NeutralLanguage></NeutralLanguage>
     <Version>2.3.1</Version>
@@ -13,9 +13,10 @@
     <FileVersion>2.3.1.0</FileVersion>
     <PackageReleaseNotes>support net6.0</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Authors>kirov-opensource</Authors>
+    <Authors>softworm</Authors>
     <PackageTags>asp-net-core dependency-injection field-injection nautowired autowired</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>HZCC.$(AssemblyName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

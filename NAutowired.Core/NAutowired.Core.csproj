@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
-    <Description>NAutowired Core Library</Description>
+    <Description>NAutowired Core Library optimized</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/hzcc-dev/NAutowired</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hzcc-dev/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2022</Copyright>
     <NeutralLanguage></NeutralLanguage>
     <Version>2.3.1</Version>
@@ -13,9 +13,10 @@
     <FileVersion>2.3.1.0</FileVersion>
     <PackageReleaseNotes>support net6.0</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Authors>kirov-opensource</Authors>
+    <Authors>softworm</Authors>
     <PackageTags>nautowired nautowired-core autowired</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>HZCC.$(AssemblyName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
