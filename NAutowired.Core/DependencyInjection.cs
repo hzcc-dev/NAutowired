@@ -14,6 +14,7 @@ namespace NAutowired.Core
     {
         private readonly static Type autowiredAttributeType = typeof(AutowiredAttribute);
         private static ConcurrentDictionary<Type, IList<MemberInfo>> typeMemberCache = new ConcurrentDictionary<Type, IList<MemberInfo>>();
+        private static ConcurrentDictionary<Type, FieldInfo> aspectFieldCache = new ConcurrentDictionary<Type, FieldInfo>();
 
         /// <summary>
         /// 属性依赖注入
@@ -31,7 +32,15 @@ namespace NAutowired.Core
             while (targetQueue.Count > 0)
             {
                 var targetObject = targetQueue.Dequeue();
-                var members = typeMemberCache.GetOrAdd(targetObject.GetType(), (type) =>
+                var targetType = targetObject.GetType();
+                // 兼容AspectCore动态代理对象
+                if (targetType.FullName.StartsWith("AspectCore.DynamicGenerated"))
+                {
+                    var fieldInfo = aspectFieldCache.GetOrAdd(targetType, t => t.GetField("_implementation", BindingFlags.NonPublic | BindingFlags.Instance));
+                    targetObject = fieldInfo.GetValue(targetObject);
+                    targetType = targetObject.GetType();
+                }
+                var members = typeMemberCache.GetOrAdd(targetType, (type) =>
                 {
                     return type.GetFullMembers();
                 });
@@ -47,13 +56,15 @@ namespace NAutowired.Core
                         instance = serviceProvider.GetServices(elementType);
                         memberInfo.SetValue(targetObject, instance);
                         // 如果是不存在的新实例，则添加到待解析依赖队列
-                        if (!instanceSet.Contains(instance))
+                        if (instanceSet.Contains(instance))
                         {
-                            instanceSet.Add(instance);
-                            foreach (object t in (instance as IEnumerable<object>))
-                            {
-                                targetQueue.Enqueue(t);
-                            }
+                            continue;
+                        }
+
+                        instanceSet.Add(instance);
+                        foreach (object t in (instance as IEnumerable<object>))
+                        {
+                            targetQueue.Enqueue(t);
                         }
                     }
                     else
@@ -65,11 +76,13 @@ namespace NAutowired.Core
                         }
 
                         memberInfo.SetValue(targetObject, instance);
-                        if (!instanceSet.Contains(instance))
+                        if (instanceSet.Contains(instance))
                         {
-                            instanceSet.Add(instance);
-                            targetQueue.Enqueue(instance);
+                            continue;
                         }
+
+                        instanceSet.Add(instance);
+                        targetQueue.Enqueue(instance);
                     }
                 }
             }
